@@ -15,14 +15,6 @@ import { RouterLink } from 'vue-router';
 </template>
 
 <style scoped>
-.button-primary {
-  padding: 11px 20px;
-  background: #F22539;
-  border-radius: 60px;
-  color: white;
-  text-align: center;
-  margin: 1rem 0;
-}
 
 .description {
   margin: 2rem 0;
