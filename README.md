@@ -6,6 +6,11 @@ Pokedex - Alan Kasis - Global 66 Frontend Developer Role
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
 
+
+## Live demo
+
+https://pokedexalankasis.netlify.app/
+
 ## Tecnologías
 
 Para realizar la aplicación utilicé Vue 3.4.15. En este caso utilicé mayoritariamente Options API declarando opciones pero podría haber utilizado Composition API.
