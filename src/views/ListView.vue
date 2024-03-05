@@ -1,6 +1,8 @@
 <template>
     <div class="post">
-        <div v-if="loading" class="loading">Loading...</div>
+        <div v-if="loading" class="loading">
+            <PokeballLoader />
+        </div>
 
         <div v-if="error" class="error">{{ error }}</div>
         <div v-if="list" class="content">
@@ -8,20 +10,22 @@
                 <SearchIcon class="search-icon" />
                 <input v-model="input" ref="input" name="" id="" class="search-bar" placeholder="Search">
             </div>
-            <li v-for="pokemon in filteredList()" v-bind:key="pokemon.name"
-                class="list__container">
+            <li v-for="pokemon in filteredList()" v-bind:key="pokemon.name" class="list__container">
                 <ListItem :pokemon=pokemon :id="pokemon.id" />
             </li>
             <div class="footer">
-                <button @click="toggleFavoritesOff" class="button-toggle lato-md bold"
-                    v-bind:class="{ 'inactive': isFavoritesOn, 'active': !isFavoritesOn }">
-                    <ListIcon class="button__inner-icon" />
-                    All
-                </button>
-                <button @click="toggleFavoritesOn" class="button-toggle lato-md bold" v-bind:class="{ 'inactive': !isFavoritesOn, 'active': isFavoritesOn }">
-                    <StarIcon class="button__inner-icon" />
-                    Favorites
-                </button>
+                <div class="footer-buttons-container">
+                    <button @click="toggleFavoritesOff" class="button-toggle lato-md bold"
+                        v-bind:class="{ 'inactive': isFavoritesOn, 'active': !isFavoritesOn }">
+                        <ListIcon class="button__inner-icon" />
+                        All
+                    </button>
+                    <button @click="toggleFavoritesOn" class="button-toggle lato-md bold"
+                        v-bind:class="{ 'inactive': !isFavoritesOn, 'active': isFavoritesOn }">
+                        <StarIcon class="button__inner-icon" />
+                        Favorites
+                    </button>
+                </div>
             </div>
             <div class="pokemon-not-found-container" v-if="input && !filteredList().length">
                 <span class="lato-lg">Uh-oh!</span>
@@ -39,12 +43,13 @@ import ListIcon from '@/components/icons/ListIcon.vue'
 import StarIcon from '@/components/icons/StarIcon.vue'
 import { mapStores, mapState, mapActions } from 'pinia';
 import useFavoritesStore from '@/stores/favorite.js'
+import PokeballLoader from '@/components/PokeballLoader.vue';
 
 
 export default {
     data() {
         return {
-            loading: false,
+            loading: true,
             list: null,
             error: null,
             input: "",
@@ -52,17 +57,18 @@ export default {
         }
     },
     components: {
-        ListItem,
-        SearchIcon,
-        ListIcon,
-        StarIcon
-    },
+    ListItem,
+    SearchIcon,
+    ListIcon,
+    StarIcon,
+    PokeballLoader
+},
     created() {
         // watch the params of the route to fetch the data again
         this.$watch(
             () => this.$route.params,
             () => {
-                this.fetchData()
+                setTimeout(() => this.fetchData(), 3000)
             },
             // fetch the data when the view is created and the data is
             // already being observed
@@ -120,6 +126,19 @@ export default {
     align-items: center;
     justify-content: center;
     height: 44px;
+
+    @media (min-width: 1024px) {
+        width: 275px;
+    }
+}
+
+.content {
+    margin: 0 0 80px 0;
+
+    @media (min-width: 1024px) {
+        min-height: calc(100vh - 80px);
+        margin: 0 0 80px 0;
+    }
 }
 
 .active {
@@ -137,10 +156,22 @@ export default {
     height: 80px;
     width: 100vw;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     background: #FFFFFF;
     box-shadow: 0px -5px 4px rgba(0, 0, 0, 0.05);
+}
+
+.footer-buttons-container {
+    height: 80px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
     padding: 0 2rem;
+    
+    @media (min-width: 1024px) {
+        max-width: 570px;
+        padding: 0;
+    }
 }
 
 .button__inner-icon {
@@ -178,6 +209,10 @@ export default {
     font-weight: 500;
     font-style: normal;
     font-size: 16px;
+
+    @media (min-width: 1024px) {
+        width: 570px;
+    }
 }
 
 .search-bar:focus-visible {
@@ -197,6 +232,10 @@ export default {
 
 .search-bar-container {
     position: relative;
+
+    @media (min-width: 1024px) {
+        margin: auto;
+    }
 }
 
 .search-icon {

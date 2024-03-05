@@ -18,6 +18,10 @@ import { RouterLink } from 'vue-router';
 
 .description {
   margin: 2rem 0;
+
+  @media (min-width: 1024px) {
+    max-width: 570px;
+  }
 }
 
 .logo {
@@ -25,6 +29,10 @@ import { RouterLink } from 'vue-router';
   width: 100%;
   max-width: 325px;
   margin: 3rem 0;
+
+  @media (min-width: 1024px) {
+    margin: auto;
+  }
 }
 
 nav {

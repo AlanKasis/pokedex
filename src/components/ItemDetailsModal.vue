@@ -1,9 +1,11 @@
 <template>
     <VueFinalModal class="modal-container" contentClass="modal-container">
-        <div v-if="loading" class="loading">Loading...</div>
+        <div v-if="loading" class="loading">
+            <PokeballLoader />
+        </div>
         <div v-if="error" class="error">{{ error }}</div>
         <div v-if="pokemon" class="details-content">
-            <img src="/details_background.png" class="background-image" />
+            <img src="/details_background.png" />
             <CloseIcon class="close-icon" @click="(() => vfm.close())" />
             <img v-bind:src="pokemon.sprites.front_default" class="sprite-image" />
             <ul class="attributes-list">
@@ -40,6 +42,7 @@ import FavButton from './FavButton.vue'
 import CloseIcon from './icons/CloseIcon.vue'
 import { useVfm } from 'vue-final-modal'
 import { UseClipboard } from '@vueuse/components'
+import PokeballLoader from './PokeballLoader.vue'
 
 export default {
     data() {
@@ -60,7 +63,8 @@ export default {
         VueFinalModal,
         FavButton,
         CloseIcon,
-        UseClipboard
+        UseClipboard,
+        PokeballLoader
     },
     props: ['url'],
     created() {
@@ -117,10 +121,6 @@ export default {
     margin: 1rem 0 0 0;
 }
 
-.background-image {
-    transform: translate(-50%);
-}
-
 .button-share {
     padding: 11px 20px;
     border-radius: 60px;
@@ -168,6 +168,10 @@ export default {
     background: #FFFFFF;
     overflow-x: hidden;
     position: relative;
+
+    @media (min-width: 1024px) {
+        width: 570px;
+    }
 }
 
 .modal-container {
