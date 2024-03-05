@@ -11,7 +11,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@vueuse/components": "^10.9.0",
+    "@vueuse/core": "^10.9.0",
+    "pinia": "^2.1.7",
     "vue": "^3.4.15",
+    "vue-final-modal": "^4.5.4",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {

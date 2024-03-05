@@ -8,16 +8,18 @@
                 <SearchIcon class="search-icon" />
                 <input v-model="input" ref="input" name="" id="" class="search-bar" placeholder="Search">
             </div>
-            <li v-for="pokemon in filteredList()" v-bind:key="pokemon.name" class="list__container">
-                <ListItem :name=capitalize(pokemon.name) />
+            <li v-for="pokemon in filteredList()" v-bind:key="pokemon.name"
+                class="list__container">
+                <ListItem :pokemon=pokemon :id="pokemon.id" />
             </li>
             <div class="footer">
-                <button class="button-toggle active lato-md bold">
-                    <ListIcon class="button__inner-icon"/>
+                <button @click="toggleFavoritesOff" class="button-toggle lato-md bold"
+                    v-bind:class="{ 'inactive': isFavoritesOn, 'active': !isFavoritesOn }">
+                    <ListIcon class="button__inner-icon" />
                     All
                 </button>
-                <button class="button-toggle inactive lato-md bold">
-                    <StarIcon class="button__inner-icon"/>
+                <button @click="toggleFavoritesOn" class="button-toggle lato-md bold" v-bind:class="{ 'inactive': !isFavoritesOn, 'active': isFavoritesOn }">
+                    <StarIcon class="button__inner-icon" />
                     Favorites
                 </button>
             </div>
@@ -35,6 +37,9 @@ import ListItem from '@/components/ListItem.vue';
 import SearchIcon from '@/components/icons/SearchIcon.vue'
 import ListIcon from '@/components/icons/ListIcon.vue'
 import StarIcon from '@/components/icons/StarIcon.vue'
+import { mapStores, mapState, mapActions } from 'pinia';
+import useFavoritesStore from '@/stores/favorite.js'
+
 
 export default {
     data() {
@@ -42,7 +47,8 @@ export default {
             loading: false,
             list: null,
             error: null,
-            input: ""
+            input: "",
+            isFavoritesOn: false,
         }
     },
     components: {
@@ -63,6 +69,15 @@ export default {
             { immediate: true }
         )
     },
+    computed: {
+        // gives access to this.favoritesStore
+        ...mapStores(useFavoritesStore),
+        // gives read access to this.favorites
+        ...mapState(useFavoritesStore, ['favorites']),
+        selectedList() {
+            return this.isFavoritesOn ? this.favorites : this.list
+        }
+    },
     methods: {
         fetchData() {
             this.error = this.list = null
@@ -81,16 +96,14 @@ export default {
                     this.error = err.toString()
                 });
         },
-        capitalize(name) {
-            const capitalizedFirst = name[0].toUpperCase();
-            const rest = name.slice(1);
-            return capitalizedFirst + rest;
-        },
         filteredList() {
-            return this.list.filter((pokemon) => {
+            return this.selectedList.filter((pokemon) => {
                 return pokemon.name.includes(this.input.toLowerCase())
             })
-        }
+        },
+        toggleFavoritesOn() { this.isFavoritesOn = true },
+        toggleFavoritesOff() { this.isFavoritesOn = false },
+        ...mapActions(useFavoritesStore, ['addFavorite']),
     },
 }
 </script>
