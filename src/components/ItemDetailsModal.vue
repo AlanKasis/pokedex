@@ -133,12 +133,18 @@ export default {
     align-items: center;
     justify-content: center;
     height: 44px;
+    cursor: pointer;
+}
+
+.button-share:active {
+  background: #C00E20;
 }
 
 .close-icon {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    cursor: pointer;
 }
 
 .details-footer {

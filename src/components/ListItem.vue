@@ -50,5 +50,6 @@ export default {
     height: 60px;
     padding: 0 0 0 20px;
     margin: 10px 0;
+    cursor: pointer;
 }
 </style>

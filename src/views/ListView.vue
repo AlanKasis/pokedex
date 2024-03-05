@@ -35,7 +35,7 @@
             <div class="pokemon-not-found-container" v-if="input && !filteredList().length">
                 <span class="lato-lg">Uh-oh!</span>
                 <span>You look lost on your journey!</span>
-                <button class="button-primary lato-md bold">Go back home</button>
+                <button class="button-primary lato-md bold" @click="clearSearch">Go back home</button>
             </div>
         </div>
     </div>
@@ -132,6 +132,9 @@ export default {
                 return pokemon.name.includes(this.input.toLowerCase())
             })
         },
+        clearSearch() {
+            this.input = ""
+        },
         toggleFavoritesOn() { this.isFavoritesOn = true },
         toggleFavoritesOff() { this.isFavoritesOn = false },
         ...mapActions(useFavoritesStore, ['addFavorite']),
@@ -151,6 +154,7 @@ export default {
     align-items: center;
     justify-content: center;
     height: 44px;
+    cursor: pointer;
 
     @media (min-width: 1024px) {
         width: 275px;

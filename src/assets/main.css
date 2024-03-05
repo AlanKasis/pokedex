@@ -20,6 +20,7 @@
   color: white;
   text-align: center;
   margin: 1rem 0;
+  cursor: pointer;
 }
 
 .button-primary:active {
