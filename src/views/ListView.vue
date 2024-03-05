@@ -13,6 +13,11 @@
             <li v-for="pokemon in filteredList()" v-bind:key="pokemon.name" class="list__container">
                 <ListItem :pokemon=pokemon :id="pokemon.id" />
             </li>
+            <div class="centered-container">
+                <button v-if="!isFavoritesOn && !input" @click="fetchData(this.next)" class="button-primary lato-md bold">
+                    Load more
+                </button>
+            </div>
             <div class="footer">
                 <div class="footer-buttons-container">
                     <button @click="toggleFavoritesOff" class="button-toggle lato-md bold"
@@ -54,15 +59,16 @@ export default {
             error: null,
             input: "",
             isFavoritesOn: false,
+            next: null
         }
     },
     components: {
-    ListItem,
-    SearchIcon,
-    ListIcon,
-    StarIcon,
-    PokeballLoader
-},
+        ListItem,
+        SearchIcon,
+        ListIcon,
+        StarIcon,
+        PokeballLoader
+    },
     created() {
         // watch the params of the route to fetch the data again
         this.$watch(
@@ -85,7 +91,25 @@ export default {
         }
     },
     methods: {
-        fetchData() {
+        fetchData(next) {
+            if (next) {
+                fetch(next, {
+                    method: "GET",
+                })
+                    .then((response) => {
+                        response.json().then((data) => {
+                            this.list = this.list.concat(data.results);
+                            this.next = data.next;
+                            this.loading = false;
+                            console.log(this.list)
+                        });
+                    })
+                    .catch((err) => {
+                        this.error = err.toString()
+                    });
+                return
+            }
+
             this.error = this.list = null
             this.loading = true
 
@@ -95,6 +119,7 @@ export default {
                 .then((response) => {
                     response.json().then((data) => {
                         this.list = data.results;
+                        this.next = data.next;
                         this.loading = false;
                     });
                 })
@@ -132,6 +157,13 @@ export default {
     }
 }
 
+.centered-container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
 .content {
     margin: 0 0 80px 0;
 
@@ -167,7 +199,7 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 0 2rem;
-    
+
     @media (min-width: 1024px) {
         max-width: 570px;
         padding: 0;

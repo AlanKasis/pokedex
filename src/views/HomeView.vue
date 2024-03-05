@@ -28,7 +28,7 @@ import { RouterLink } from 'vue-router';
   display: block;
   width: 100%;
   max-width: 325px;
-  margin: 3rem 0;
+  margin: 3rem auto;
 
   @media (min-width: 1024px) {
     margin: auto;

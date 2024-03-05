@@ -22,6 +22,10 @@
   margin: 1rem 0;
 }
 
+.button-primary:active {
+  background: #C00E20;
+}
+
 .dark-grey {
   color: #353535;
 }
@@ -86,9 +90,5 @@ a,
   body {
     display: flex;
     place-items: center;
-  }
-
-  #app {
-    padding: 2rem;
   }
 }
